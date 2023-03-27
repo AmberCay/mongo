@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb+srv://Amberita:9CGRjtJCe0zhhLEp@cluster0.rqbwt4k.mongodb.net/test', 
+mongoose.connect('mongodb+srv://Amberita:9CGRjtJCe0zhhLEp@cluster0.rqbwt4k.mongodb.net/day2', 
     {useNewUrlParser: false, useUnifiedTopology: false})
 
 const teacherSchema = new mongoose.Schema({
@@ -112,8 +112,7 @@ let Student = mongoose.model("Student", studentSchema);
 // })
 
 Student.findOne({firstName: "Bart"}).then((student) => {
-    console.log(student);
-    let answer = student.firstName + "'s grades are: \n"
+    let answer = student.firstName + "'s grades are: \n \n"
     student.marks.forEach((markie) => {
         answer += (`${markie.mark} in ${markie.subject.title}, taught by: `);
         markie.subject.teachers.forEach((teacher) => {

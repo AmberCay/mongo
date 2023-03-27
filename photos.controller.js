@@ -16,12 +16,12 @@ let photoDocument  =new Photo({
 //     console.log("Photo saved succesfully");
 // })
 
-let data = new Photo ({
-    user_name: "amber",
-    url: "https://images.unsplash.com/photo-1679279726940-be5ce80c632c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
-    title: "Noodles",
-    desc: "Yummy noodle dish"
-})
+// let data = new Photo ({
+//     user_name: "amber",
+//     url: "https://images.unsplash.com/photo-1679279726940-be5ce80c632c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
+//     title: "Noodles",
+//     desc: "Yummy noodle dish"
+// })
 
 let data2 = new Photo ({
     user_name: "lillith",
@@ -53,33 +53,66 @@ let data3 = new Photo ({
 // })
 
 
+function addPhoto(username, url, title, desc){
+    let data = new Photo ({
+        user_name: username,
+        url: url,
+        title: title,
+        desc: desc
+    })
+    Photo.create(data).then( function() {
+    console.log("Photo saved successfully");
+    mongoose.disconnect();
+})
+.catch( function() {
+    console.log("photo failed to save");
+})
+}
 
-Photo.find({user_name: "lillith"}).then((res) => {
+function findByUser(username){
+    Photo.find({user_name: username}).then((res) => {
     console.log(res);
 })
 .catch((err) => {
     console.log(err);
 })
+}
 
-Photo.updateOne({title: "Gundam"}, {desc: "Gundam from the show gundam"}).then((res) => {
+function updateDescription(title, desc){
+    Photo.updateOne({title: title}, {desc: desc}).then((res) => {
     console.log("New description: " + res.desc);
 })
 .catch((err) => {
     console.log(err);
 })
+}
 
-Photo.deleteOne({user_name:"lillith", title: "Gundam"}).then((res) => {
+function deleteByNameAndTitle(name, title) {
+    Photo.deleteOne({user_name: name, title: title}).then((res) => {
     console.log("photo deleted");
     console.log(res);
 })
 .catch((err) => {
     console.log(err);
 });
+}
 
-Photo.deleteMany({user_name: "amber"}).then((res) => {
+function deleteUserPhotos(username) {
+    Photo.deleteMany({user_name: username}).then((res) => {
     console.log("photos deleted");
     console.log(res);
 })
 .catch((err) => {
     console.log(err);
 });
+}
+
+addPhoto('amber', 'https://images.unsplash.com/photo-1679641050251-f27bc9f978d9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80', 'Flowers', 'Red flowers');
+
+findByUser('lillith');
+
+updateDescription('Flowers', 'Pretty red flowers');
+
+deleteByNameAndTitle('lillith', 'Gundam');
+
+deleteUserPhotos('amber')
